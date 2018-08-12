@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>OmpForDotNet.Utility</id>
+    <version>1.0.0</version>
+    <authors>Marina Pukhlenko</authors>
+    <owners>namira</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>OpenMP implementation for .NET</description>
+    <releaseNotes>Summary of changes made in this release of the package.</releaseNotes>
+    <copyright>Copyright 2018</copyright>
+    <tags>openmp roslyn</tags>
+    <dependencies>
+        <dependency id="Microsoft.CodeAnalysis" version="1.3.2" />
+		<dependency id="Microsoft.CodeAnalysis.Analyzers" version="1.1.0" />
+		<dependency id="Microsoft.CodeAnalysis.Common" version="1.3.2" />
+		<dependency id="Microsoft.CodeAnalysis.CSharp" version="1.3.2" />
+		<dependency id="Microsoft.CodeAnalysis.CSharp.Workspaces" version="1.3.2" />
+		<dependency id="Microsoft.CodeAnalysis.Workspaces.Common" version="1.3.2" />
+		<dependency id="Microsoft.Composition" version="1.0.27" />
+    </dependencies>
+  </metadata>
+</package>
