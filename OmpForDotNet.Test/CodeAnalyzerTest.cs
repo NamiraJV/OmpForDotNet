@@ -11,6 +11,47 @@ namespace OmpForDotNet.Test
     [TestFixture]
     public class CodeAnalyzerTest
     {
+        /* TODO: tests to add
+         * 1) root parameter is null
+         * 2) no region/endregion directives in code
+         * 3) directives: region n1 endregion n1 region n2 region n3 endregion n3 endregion n2 region n4 region n5 endregion n4 endregion n5
+         * 4) no nodes between directives/some nodes
+        */
+
+        [Test]
+        [TestCaseSource(nameof(GetRegionDirectivesTestData))]
+        public void GetRegionDirectivesTest(string testCode, List<DirectiveSyntaxNode> expectedNodes)
+        {
+            CodeAnalyzer analyzer = new CodeAnalyzer(new Utility.Factories.DirectiveParserFactory());
+            SyntaxNode root = CSharpSyntaxTree.ParseText(testCode)
+                .GetRoot();
+
+            List<DirectiveSyntaxNode> nodes = analyzer.GetRegionNodes(root);
+
+            AreEqualNodes(expectedNodes, nodes);
+        }
+
+        private static TestCaseData[] GetRegionDirectivesTestData = 
+        {
+            new TestCaseData()
+        };
+
+        private void AreEqualNodes(List<DirectiveSyntaxNode> expectedNodes, List<DirectiveSyntaxNode> actualNodes)
+        {
+            if (expectedNodes == null)
+            {
+                Assert.IsNull(actualNodes);
+                return;
+            }
+
+            Assert.AreEqual(expectedNodes.Count, actualNodes.Count);
+            
+            for (int i = 0, length = expectedNodes.Count; i < length; i++)
+            {
+                Assert.AreEqual(expectedNodes[i], actualNodes[i]);
+            }
+        }
+
         [Test]
         public void GetAllRegionDirectivesTest()
         {
@@ -57,5 +98,25 @@ namespace N
     }
     #endregion n1
 }";
+
+        private static string[] TestCodeStrings = new[] 
+        {
+            @"
+namespace N
+{
+    class C
+    {
+        void method()
+        {
+            int n = 10;
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++)
+            { 
+                arr[i] = i;
+            }
+        }
+    }
+}"
+        };
     }
 }

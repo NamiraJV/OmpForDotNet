@@ -1,11 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace OmpForDotNet.Utility.Entities
 {
     /// <summary>
     /// Entity that represents information about OpenMP directive
     /// </summary>
-    public class OmpDirectiveInfo
+    public class OmpDirectiveInfo : IEquatable<OmpDirectiveInfo>
     {
         /// <summary>
         /// Type of the directive
@@ -26,6 +28,34 @@ namespace OmpForDotNet.Utility.Entities
         {
             Type = type;
             Options = options;
+        }
+
+        public bool Equals(OmpDirectiveInfo other)
+        {
+            if (this == other)
+            {
+                return true;
+            }
+
+            if (other == null)
+            {
+                return false;
+            }
+
+            if (this.Type != other.Type)
+            {
+                return false;
+            }
+
+            if (this.Options == null && other.Options != null ||
+                this.Options != null && other.Options == null)
+            {
+                return false;
+            }
+
+            return this.Options
+                    .OrderBy(kvp => kvp.Key)
+                    .SequenceEqual(other.Options.OrderBy(kvp => kvp.Key));
         }
     }
 }

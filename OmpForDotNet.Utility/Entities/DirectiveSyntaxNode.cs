@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
+using System;
 using System.Collections.Generic;
 
 namespace OmpForDotNet.Utility.Entities
@@ -7,7 +8,7 @@ namespace OmpForDotNet.Utility.Entities
     /// <summary>
     /// Entity that represents syntax node for further processing
     /// </summary>
-    public class DirectiveSyntaxNode
+    public class DirectiveSyntaxNode : IEquatable<DirectiveSyntaxNode>
     {
         /// <summary>
         /// OmpDirectiveInfo
@@ -67,6 +68,23 @@ namespace OmpForDotNet.Utility.Entities
                     Nodes.Add(node);
                 }
             }
+        }
+
+        public bool Equals(DirectiveSyntaxNode other)
+        {
+            if (this == other)
+            {
+                return true;
+            }
+
+            if (other == null)
+            {
+                return false;
+            }
+
+            return this.DirectiveInfo.Equals(other.DirectiveInfo) &&
+                this.RegionDirective.Equals(other.RegionDirective) &&
+                this.EndRegionDirective.Equals(other.EndRegionDirective);
         }
     }
 }
